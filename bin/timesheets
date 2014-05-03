@@ -1,3 +1,5 @@
 #!/usr/bin/env ruby
 
 require 'timesheets'
+
+Timesheets::CLI.start(ARGV)

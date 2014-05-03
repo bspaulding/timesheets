@@ -1,5 +1,4 @@
-require "timesheets/version"
+module Timesheets; end
 
-module Timesheets
-  # Your code goes here...
-end
+require "timesheets/version"
+require "timesheets/cli"
