@@ -13,21 +13,11 @@ module Timesheets
 
     def summary_table
       Terminal::Table.new(headings: ['Weekday', 'Date', 'Start Time', 'End Time', 'Hour(s)']) {|t|
-        entries.each {|entry|
-          t << [
-            entry.first.strftime('%A'),
-            entry.first.strftime('%B %e, %Y'),
-            entry.map {|time|
-              time.strftime('%l:%M%p')
-            },
-            hours_in_entry(entry)
-          ].flatten
-        }
-
+        formatted_entries.each {|entry| t << entry }
         t << :separator
         t << ['', '', '', '', total_hours]
 
-        5.times {|i| t.align_column(i, :right) }
+        formatted_entries.first.length.times {|i| t.align_column(i, :right) }
       }
     end
 
@@ -37,6 +27,19 @@ module Timesheets
 
     def entries
       @entries ||= rows.map {|row| row.map {|dt| DateTime.parse(dt).to_time } }
+    end
+
+    def formatted_entries
+      @formatted_entries ||= entries.map {|entry|
+        [
+          entry.first.strftime('%A'),
+          entry.first.strftime('%B %e, %Y'),
+          entry.map {|time|
+            time.strftime('%l:%M%p')
+          },
+          hours_in_entry(entry)
+        ].flatten
+      }
     end
 
     def rows
