@@ -47,7 +47,7 @@ module Timesheets
     end
 
     def filepath
-      '/Users/bspaulding/Dropbox/Spredfast/timesheets.csv'
+      File.expand_path(ENV['TIMESHEETS_FILEPATH'] || '~/.timesheets.csv')
     end
 
     def hours_in_entry(entry)
