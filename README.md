@@ -39,6 +39,13 @@ A neat ASCII table report, including total hours.
     |           |                |            |          |   49.25 |
     +-----------+----------------+------------+----------+---------+
 
+### Start
+
+Starts a session.
+
+    $ timesheets start
+    Started session at 2014-05-04 13:47:33 -0500
+
 ## Contributing
 
 1. Fork it (https://github.com/bspaulding/timesheets/fork)
