@@ -5,6 +5,7 @@ require 'csv'
 require "timesheets/commands/base"
 require "timesheets/commands/summary"
 require "timesheets/commands/start"
+require "timesheets/commands/edit"
 
 module Timesheets
   class CLI < Thor
@@ -17,5 +18,11 @@ module Timesheets
     def start
       Commands::Start.run
     end
+
+    desc "edit", "Manually edit timesheet data"
+    def edit
+      Commands::Edit.run
+    end
   end
 end
+
