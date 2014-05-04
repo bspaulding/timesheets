@@ -19,8 +19,22 @@ Run `timesheets` to see a list of available commands:
       timesheets edit            # Manually edit timesheet data
       timesheets help [COMMAND]  # Describe available commands or one specific command
       timesheets start           # Begin a work session
+      timesheets stop            # End the current work session
       timesheets summary         # See a summary table of time worked
 
+
+### Edit
+
+Opens the underlying spreadsheet (CSV) in your configured editor. Tries `$EDITOR`, then `git config core.editor`, then defaults to `vim`.
+
+    $ timesheets edit
+
+### Start
+
+Starts a session.
+
+    $ timesheets start
+    Started session at 2014-05-04 13:47:33 -0500
 
 ### Summary
 
@@ -40,19 +54,6 @@ A neat ASCII table report, including total hours.
     +-----------+----------------+------------+----------+---------+
     |           |                |            |          |   49.25 |
     +-----------+----------------+------------+----------+---------+
-
-### Start
-
-Starts a session.
-
-    $ timesheets start
-    Started session at 2014-05-04 13:47:33 -0500
-
-### Edit
-
-Opens the underlying spreadsheet (CSV) in your configured editor. Tries `$EDITOR`, then `git config core.editor`, then defaults to `vim`.
-
-    $ timesheets edit
 
 ## Contributing
 
