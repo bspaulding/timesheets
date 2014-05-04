@@ -16,7 +16,9 @@ Run `timesheets` to see a list of available commands:
 
     $ timesheets
     Commands:
+      timesheets edit            # Manually edit timesheet data
       timesheets help [COMMAND]  # Describe available commands or one specific command
+      timesheets start           # Begin a work session
       timesheets summary         # See a summary table of time worked
 
 
