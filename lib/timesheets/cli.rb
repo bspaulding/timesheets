@@ -5,6 +5,7 @@ require 'csv'
 require "timesheets/commands/base"
 require "timesheets/commands/edit"
 require "timesheets/commands/start"
+require "timesheets/commands/status"
 require "timesheets/commands/stop"
 require "timesheets/commands/summary"
 
@@ -18,6 +19,11 @@ module Timesheets
     desc "start", "Begin a work session"
     def start
       Commands::Start.run
+    end
+
+    desc "status", "Show current work status"
+    def status
+      Commands::Status.run
     end
 
     desc "stop", "End the current work session"
