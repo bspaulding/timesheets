@@ -15,7 +15,7 @@ module Timesheets
       Terminal::Table.new(headings: ['Weekday', 'Date', 'Start Time', 'End Time', 'Hour(s)']) {|t|
         formatted_entries.each {|entry| t << entry }
         t << :separator
-        t << ['', '', '', '', sprintf('%0.02f', total_hours)]
+        t << formatted_entries.first.length.times.map { '' } + [sprintf('%0.02f', total_hours)]
 
         formatted_entries.first.length.times {|i| t.align_column(i, :right) }
       }
