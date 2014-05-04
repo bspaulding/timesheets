@@ -7,6 +7,10 @@ module Timesheets
 
       private
 
+      def session_in_progress?
+        rows.last.last.nil?
+      end
+
       def rows
         @rows ||= CSV.read(filepath)[1..-1]
       end
