@@ -26,7 +26,7 @@ module Timesheets
       end
 
       def entries
-        @entries ||= rows.map {|row| row.map {|dt| DateTime.parse(dt).to_time } }
+        @entries ||= rows.map {|row| row.map {|dt| DateTime.parse(dt || Time.now.to_s).to_time } }
       end
 
       def formatted_entries
