@@ -46,6 +46,12 @@ Starts a session.
     $ timesheets start
     Started session at 2014-05-04 13:47:33 -0500
 
+### Edit
+
+Opens the underlying spreadsheet (CSV) in your configured editor. Tries `$EDITOR`, then `git config core.editor`, then defaults to `vim`.
+
+    $ timesheets edit
+
 ## Contributing
 
 1. Fork it (https://github.com/bspaulding/timesheets/fork)
