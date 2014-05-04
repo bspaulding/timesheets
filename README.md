@@ -55,6 +55,7 @@ Ends the current work session, if any.
 
 A neat ASCII table report, including total hours.
 
+    $ timesheets summary
     +-----------+----------------+------------+----------+---------+
     | Weekday   | Date           | Start Time | End Time | Hour(s) |
     +-----------+----------------+------------+----------+---------+
