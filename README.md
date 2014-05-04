@@ -44,6 +44,13 @@ Shows the status of the current work session, if any.
     $ timesheets status
     Current work session has been active for 8 minutes
 
+### Stop
+
+Ends the current work session, if any.
+
+    $ timesheets stop
+    Ended session at 2014-05-04 14:38:42 -0500
+
 ### Summary
 
 A neat ASCII table report, including total hours.
