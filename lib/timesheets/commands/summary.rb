@@ -8,28 +8,49 @@ module Timesheets
       private
 
       def summary_table
-        Terminal::Table.new(headings: ['Weekday', 'Date', 'Start Time', 'End Time', 'Hour(s)']) {|t|
-          formatted_entries.each {|entry| t << entry }
-          t << :separator
-          t << (formatted_entries.first.length - 1).times.map { '' } + [sprintf('%0.02f', total_hours)]
+        Terminal::Table.new(headings: heading) {|t|
+          entries_by_week.each_with_index {|entries, index|
+            format_entries(entries).each {|entry| t << entry }
+            t << :separator
+            t << (heading.length - 2).times.map { '' } + ['Weekly Total:', sprintf('%0.02f', hours_in_entries(entries))]
+            t << :separator
+          }
 
-          formatted_entries.first.length.times {|i| t.align_column(i, :right) }
+          t << (heading.length - 2).times.map { '' } + ['Total:', sprintf('%0.02f', total_hours)]
+
+          heading.length.times {|i| t.align_column(i, :right) }
         }
       end
 
-      def total_hours
-        entries.map {|entry| hours_in_entry(entry) }.reduce(:+)
+      def heading
+        ['Weekday', 'Date', 'Time', 'Hour(s)']
       end
 
-      def formatted_entries
-        @formatted_entries ||= entries.map {|entry|
+      def total_hours
+        hours_in_entries(entries)
+      end
+
+      def hours_in_entries(the_entries)
+        the_entries.map {|entry| hours_in_entry(entry) }.reduce(:+)
+      end
+
+      def entries_by_week
+        @entries_by_week ||= entries.group_by {|entry| entry.first.strftime('%U') }.values
+      end
+
+      def format_entries(entries)
+        entries.group_by {|entry|
+            entry.first.strftime('%B %e, %Y')
+        }.map {|day, entries|
           [
-            entry.first.strftime('%A'),
-            entry.first.strftime('%B %e, %Y'),
-            entry.map {|time|
-              time.strftime('%l:%M%p')
-            },
-            sprintf('%0.02f', hours_in_entry(entry))
+            entries.first.first.strftime('%A'),
+            day,
+            entries.map {|entry|
+              entry.map {|time|
+                time.strftime('%l:%M%p')
+              }.join(' - ')
+            }.join(', '),
+            sprintf('%0.02f', entries.map {|entry| hours_in_entry(entry) }.reduce(:+))
           ].flatten
         }
       end
