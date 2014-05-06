@@ -16,6 +16,7 @@ module Timesheets
 
       def active_time(the_entries = [entries.last])
         hoursf = the_entries.map {|entry| hours_in_entry(entry) }.reduce(:+)
+        return "0 minutes" unless hoursf
         hours = hoursf.to_i
         mins = ((hoursf - hours) * 60).to_i
 
