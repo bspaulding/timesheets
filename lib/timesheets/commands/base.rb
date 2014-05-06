@@ -19,6 +19,14 @@ module Timesheets
         @entries ||= rows.map {|row| row.map {|dt| DateTime.parse(dt || Time.now.to_s).to_time } }
       end
 
+      def todays_entries
+        entries.select {|entry| entry.first.strftime('%Y%m%d') == today }
+      end
+
+      def today
+        @today ||= Time.new.strftime('%Y%m%d')
+      end
+
       def rows
         @rows ||= CSV.read(filepath)[1..-1]
       end
