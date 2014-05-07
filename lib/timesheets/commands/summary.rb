@@ -9,25 +9,29 @@ module Timesheets
 
       def summary_table
         Terminal::Table.new(headings: heading) {|t|
-          entries_by_week.each_with_index {|entries, index|
-            format_entries(entries).each {|entry| t << entry }
-            t << :separator
-            t << (heading.length - 2).times.map { '' } + ['Weekly Total:', sprintf('%0.02f', hours_in_entries(entries))]
-            t << :separator
-          }
-
-          t << (heading.length - 2).times.map { '' } + ['Total:', sprintf('%0.02f', total_hours)]
+          entries_by_week.map {|entries|
+            rows_for_entries(entries).each {|row| t << row }
+	  }
+          t << total_row(entries)
 
           heading.length.times {|i| t.align_column(i, :right) }
         }
+      end
+
+      def rows_for_entries(entries)
+        format_entries(entries) + [
+          :separator,
+          total_row(entries),
+          :separator
+        ]
       end
 
       def heading
         ['Weekday', 'Date', 'Time', 'Hour(s)']
       end
 
-      def total_hours
-        hours_in_entries(entries)
+      def total_row(entries)
+        (heading.length - 2).times.map { '' } + ['Total:', sprintf('%0.02f', hours_in_entries(entries))]
       end
 
       def hours_in_entries(the_entries)
