@@ -42,19 +42,27 @@ module Timesheets
         @entries_by_week ||= entries.group_by {|entry| entry.first.strftime('%U') }.values
       end
 
-      def format_entries(entries)
+      def entries_by_day(entries)
         entries.group_by {|entry|
-            entry.first.strftime('%B %e, %Y')
-        }.map {|day, entries|
+          entry.first.strftime('%B %e, %Y')
+        }
+      end
+
+      def times_in_entry(entry)
+        entry.map {|time| time.strftime('%l:%M%p') }.join(' - ')
+      end
+
+      def times_for_entries(entries)
+	entries.map {|entry| times_in_entry(entry) }.join(', ')
+      end
+
+      def format_entries(entries)
+	entries_by_day(entries).map {|day, entries|
           [
             entries.first.first.strftime('%A'),
             day,
-            entries.map {|entry|
-              entry.map {|time|
-                time.strftime('%l:%M%p')
-              }.join(' - ')
-            }.join(', '),
-            sprintf('%0.02f', entries.map {|entry| hours_in_entry(entry) }.reduce(:+))
+	    times_for_entries(entries),
+            sprintf('%0.02f', hours_in_entries(entries))
           ].flatten
         }
       end
