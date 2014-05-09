@@ -7,8 +7,12 @@ module Timesheets
 
       private
 
+      def tableClass
+	options['format'] == 'html' ? Timesheets::HTMLTable : Terminal::Table
+      end
+
       def summary_table
-        Terminal::Table.new(headings: heading) {|t|
+        tableClass.new(headings: heading) {|t|
           entries_by_week.map {|entries|
             rows_for_entries(entries).each {|row| t << row }
 	  }

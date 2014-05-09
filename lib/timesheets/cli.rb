@@ -7,6 +7,7 @@ require "timesheets/commands/edit"
 require "timesheets/commands/start"
 require "timesheets/commands/status"
 require "timesheets/commands/stop"
+require 'timesheets/html_table'
 require "timesheets/commands/summary"
 
 module Timesheets
@@ -32,8 +33,9 @@ module Timesheets
     end
 
     desc "summary", "See a summary table of time worked"
+    option :format
     def summary
-      Commands::Summary.run
+      Commands::Summary.run(options)
     end
   end
 end

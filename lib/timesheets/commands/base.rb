@@ -1,8 +1,14 @@
 module Timesheets
   module Commands
     class Base
-      def self.run
-        new.run
+      attr_accessor :options
+
+      def self.run(options = {})
+        new(options).run
+      end
+
+      def initialize(options = {})
+	@options = options
       end
 
       private
