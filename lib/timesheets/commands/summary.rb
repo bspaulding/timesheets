@@ -8,7 +8,10 @@ module Timesheets
       private
 
       def tableClass
-	options['format'] == 'html' ? Timesheets::HTMLTable : Terminal::Table
+	{
+	  'html' => Timesheets::HTMLTable,
+	  'csv'  => Timesheets::CSVTable,
+	}[options[:format]] || Terminal::Table
       end
 
       def summary_table

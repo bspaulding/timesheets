@@ -8,6 +8,7 @@ require "timesheets/commands/start"
 require "timesheets/commands/status"
 require "timesheets/commands/stop"
 require 'timesheets/html_table'
+require 'timesheets/csv_table'
 require "timesheets/commands/summary"
 
 module Timesheets
