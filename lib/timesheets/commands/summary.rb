@@ -19,7 +19,7 @@ module Timesheets
           entries_by_week.map {|entries|
             rows_for_entries(entries).each {|row| t << row }
 	  }
-          t << total_row(entries)
+          t << total_row(entries) unless options['week-of']
 
           heading.length.times {|i| t.align_column(i, :right) }
         }
@@ -47,6 +47,17 @@ module Timesheets
 
       def entries_by_week
         @entries_by_week ||= entries.group_by {|entry| entry.first.strftime('%U') }.values
+      end
+
+      def entries
+        the_entries = super
+
+	if options['week-of']
+          week_num = DateTime.parse(options['week-of']).strftime("%U")
+          the_entries = the_entries.select {|entry| entry.first.strftime("%U") == week_num }
+	end
+
+	the_entries
       end
 
       def entries_by_day(entries)
