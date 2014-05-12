@@ -2,6 +2,8 @@
 
 A CLI for managing timesheets.
 
+[![Gem Version](https://badge.fury.io/rb/timesheets.svg)](http://badge.fury.io/rb/timesheets)
+
 ## Installation
 
 Install it via RubyGems:
