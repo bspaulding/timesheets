@@ -27,7 +27,7 @@ module Timesheets
 					}
           t << total_row(entries) unless options['week-of']
 
-          heading.length.times {|i| t.align_column(i, :right) }
+          (heading.length - 1).times {|i| t.align_column(i, :right) }
         }
       end
 
@@ -41,7 +41,7 @@ module Timesheets
       def heading
         the_heading = ['Weekday', 'Date', 'Time', 'Hour(s)']
 
-				the_heading += ['Hourly Rate', 'Total']
+				the_heading += ['Hourly Rate', 'Total'] if options[:rate]
 
 				the_heading
       end
