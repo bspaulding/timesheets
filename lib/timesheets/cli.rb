@@ -33,11 +33,15 @@ module Timesheets
       Commands::Stop.run
     end
 
+    option :format, type: :string,
+      desc: "ascii, csv, or html.", default: 'ascii'
+    option :'week-of', type: :string,
+      desc: "Limit summary to the week of YYYY-MM-DD"
+    option :rate, type: :numeric,
+      desc: "If provided, will be used as an hourly rate to calculate daily and weekly totals."
+    option :template, type: :string,
+      desc: "Filepath to a custom HTML template. Replaceable macros are: {{styles}}, {{table}}, {{today}}, {{firstDayNice}}, and {{invoiceID}}."
     desc "summary", "See a summary table of time worked"
-    option :format
-    option :'week-of'
-    option :rate
-    option :template
     def summary
       Commands::Summary.run(options)
     end

@@ -9,8 +9,9 @@ module Timesheets
 
       def tableClass
 				{
-					'html' => Timesheets::HTMLTable,
-					'csv'  => Timesheets::CSVTable,
+					'html'  => Timesheets::HTMLTable,
+					'csv'   => Timesheets::CSVTable,
+					'ascii' => Terminal::Table
 				}[options[:format]] || Terminal::Table
       end
 
