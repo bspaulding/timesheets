@@ -36,6 +36,7 @@ module Timesheets
     desc "summary", "See a summary table of time worked"
     option :format
     option :'week-of'
+    option :rate
     def summary
       Commands::Summary.run(options)
     end

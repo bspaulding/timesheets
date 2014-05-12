@@ -8,17 +8,18 @@ module Timesheets
       private
 
       def tableClass
-	{
-	  'html' => Timesheets::HTMLTable,
-	  'csv'  => Timesheets::CSVTable,
-	}[options[:format]] || Terminal::Table
+				{
+					'html' => Timesheets::HTMLTable,
+					'csv'  => Timesheets::CSVTable,
+				}[options[:format]] || Terminal::Table
       end
 
       def summary_table
         tableClass.new(headings: heading) {|t|
-          entries_by_week.map {|entries|
+          entries_by_week.each_with_index {|entries, index|
             rows_for_entries(entries).each {|row| t << row }
-	  }
+						t << :separator unless index == entries_by_week.length - 1
+					}
           t << total_row(entries) unless options['week-of']
 
           heading.length.times {|i| t.align_column(i, :right) }
@@ -28,18 +29,33 @@ module Timesheets
       def rows_for_entries(entries)
         format_entries(entries) + [
           :separator,
-          total_row(entries),
-          :separator
+          total_row(entries)
         ]
       end
 
       def heading
-        ['Weekday', 'Date', 'Time', 'Hour(s)']
+        the_heading = ['Weekday', 'Date', 'Time', 'Hour(s)']
+
+				the_heading += ['Hourly Rate', 'Total']
+
+				the_heading
       end
 
       def total_row(entries)
-        (heading.length - 2).times.map { '' } + ['Total:', sprintf('%0.02f', hours_in_entries(entries))]
+				padN = heading.length - 2
+				padN -= 2 if options[:rate]
+        the_row = padN.times.map { '' } + ['Total:', sprintf('%0.02f', hours_in_entries(entries))]
+
+				if options[:rate]
+					the_row += ['', "$#{comma_numbers(hours_in_entries(entries).to_f * options[:rate].to_f)}"]
+				end
+
+				the_row
       end
+
+			def comma_numbers(number, delimiter = ',')
+				sprintf('%0.02f', number).reverse.gsub(%r{([0-9]{3}(?=([0-9])))}, "\\1#{delimiter}").reverse
+			end
 
       def hours_in_entries(the_entries)
         the_entries.map {|entry| hours_in_entry(entry) }.reduce(:+)
@@ -52,12 +68,12 @@ module Timesheets
       def entries
         the_entries = super
 
-	if options['week-of']
+				if options['week-of']
           week_num = DateTime.parse(options['week-of']).strftime("%U")
           the_entries = the_entries.select {|entry| entry.first.strftime("%U") == week_num }
-	end
+				end
 
-	the_entries
+				the_entries
       end
 
       def entries_by_day(entries)
@@ -71,17 +87,24 @@ module Timesheets
       end
 
       def times_for_entries(entries)
-	entries.map {|entry| times_in_entry(entry) }.join(', ')
+				entries.map {|entry| times_in_entry(entry) }.join(', ')
       end
 
       def format_entries(entries)
-	entries_by_day(entries).map {|day, entries|
-          [
+				entries_by_day(entries).map {|day, entries|
+          entry = [
             entries.first.first.strftime('%A'),
             day,
-	    times_for_entries(entries),
+						times_for_entries(entries),
             sprintf('%0.02f', hours_in_entries(entries))
-          ].flatten
+					].flatten
+
+					if options[:rate]
+						entry << sprintf('$%0.02f', options[:rate])
+						entry << sprintf('$%0.02f', hours_in_entries(entries).to_f * options[:rate].to_f)
+					end
+
+					entry
         }
       end
     end
