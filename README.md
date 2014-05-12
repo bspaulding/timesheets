@@ -2,7 +2,7 @@
 
 A CLI for managing timesheets.
 
-[![Gem Version](https://badge.fury.io/rb/timesheets.svg)](http://badge.fury.io/rb/timesheets)
+[![Gem Version](https://badge.fury.io/rb/timesheets.svg)](http://badge.fury.io/rb/timesheets) [![Code Climate](https://codeclimate.com/github/bspaulding/timesheets.png)](https://codeclimate.com/github/bspaulding/timesheets)
 
 ## Installation
 
