@@ -14,8 +14,12 @@ module Timesheets
 				}[options[:format]] || Terminal::Table
       end
 
+      def table_renderer(&block)
+        tableClass.new({ headings: heading, template: options[:template] }, &block)
+      end
+
       def summary_table
-        tableClass.new(headings: heading) {|t|
+        table_renderer {|t|
           entries_by_week.each_with_index {|entries, index|
             rows_for_entries(entries).each {|row| t << row }
 						t << :separator unless index == entries_by_week.length - 1

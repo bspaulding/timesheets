@@ -37,6 +37,7 @@ module Timesheets
     option :format
     option :'week-of'
     option :rate
+    option :template
     def summary
       Commands::Summary.run(options)
     end
