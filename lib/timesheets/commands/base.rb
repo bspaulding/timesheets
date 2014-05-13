@@ -8,10 +8,14 @@ module Timesheets
       end
 
       def initialize(options = {})
-	@options = options
+	      @options = options
       end
 
       private
+
+			def logger
+				@logger ||= Timesheets::Logger.new
+			end
 
       def session_in_progress?
         rows.last.last.nil?

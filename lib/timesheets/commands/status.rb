@@ -9,7 +9,7 @@ module Timesheets
           strings << "Not currently working."
         end
         strings << "Total time today is #{total_time_today}."
-        puts strings.join(' ')
+				logger.log strings.join(' ')
       end
 
       private
@@ -21,7 +21,7 @@ module Timesheets
         mins = ((hoursf - hours) * 60).to_i
 
         [pluralize('hour', hours), pluralize('minute', mins)]
-          .reject {|string| string[0] == "0" }
+          .reject {|string| string == "0 hours" }
           .join(', ')
       end
 
