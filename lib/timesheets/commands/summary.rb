@@ -74,7 +74,8 @@ module Timesheets
         the_entries = super
 
 				if options['week-of']
-          week_num = DateTime.parse(options['week-of']).strftime("%U")
+					date_of_week = options['week-of'] === 'week-of' ?  DateTime.now : DateTime.parse(options['week-of'])
+					week_num = date_of_week.strftime("%U")
           the_entries = the_entries.select {|entry| entry.first.strftime("%U") == week_num }
 				end
 
